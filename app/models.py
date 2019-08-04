@@ -44,3 +44,17 @@ class User(UserMixin,db.Model):
     def get_user_comments(self):
         user  = User.query.filter_by(id = self.id).first()
         return user.comments
+
+
+class Pitch(db.Model):
+    """
+    This is the class which we will use to create the pitches for the app
+    """
+    __tablename__ = "pitches"
+
+    id = db.Column(db.Integer, primary_key = True)
+    title = db.Column(db.String)
+    pitch = db.Column(db.String)
+    category = db.Column(db.String)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    comments = db.relationship("Comment", backref = "pitch", lazy = "dynamic")
