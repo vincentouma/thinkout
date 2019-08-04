@@ -58,3 +58,39 @@ class Pitch(db.Model):
     category = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     comments = db.relationship("Comment", backref = "pitch", lazy = "dynamic")
+
+    def save_pitch(self):
+            db.session.add(self)
+            db.session.commit()
+
+
+    def get_pitch_comments(self):
+        pitch = Pitch.query.filter_by(id = self.id).first()
+        comments = Comment.query.filter_by(pitch_id = pitch.id).order_by(Comment.time.desc())
+        return comments
+
+def get_user_pitches(self):
+    user = User.query.filter_by(id = self.id).first()
+    return user.pitches
+
+def get_user_comments(self):
+    user  = User.query.filter_by(id = self.id).first()
+    return user.comments
+
+
+class Comment(db.Model):
+    """
+    This is the class which we will use to create the comments for the pitches
+    """
+    __tablename__ = "comments"
+    id = db.Column(db.Integer, primary_key = True)
+    content = db.Column(db.String)
+    date = db.Column(db.String)
+    time = db.Column(db.String)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    pitch_id = db.Column(db.Integer, db.ForeignKey("pitches.id"))
+
+    def save_comment(self):
+        db.session.add(self)
+        db.session.commit()
+
