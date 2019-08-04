@@ -1,4 +1,4 @@
-from ..models import User,Pitch,Comment,Reviews
+from ..models import User,Pitch,Comment
 from flask import render_template,redirect,url_for,request,abort
 from . import main
 import datetime
@@ -50,4 +50,75 @@ def add_pitch(uname):
         pitches = Pitch.query.all()
         return redirect(url_for("main.categories",category = category))
     return render_template("add_pitch.html",form = form, title = title)
+
+@main.route("/<user>/pitch/<pitch_id>/addcomment", methods = ["GET","POST"])
+@login_required
+def comment(user,pitch_id):
+    user = User.query.filter_by(username = user).first()
+    pitch = Pitch.query.filter_by(id = pitch_id).first()
+    form = AddComment()
+    title = "Add comment"
+    if form.validate_on_submit():
+        content = form.content.data 
+        dateOriginal = datetime.datetime.now()
+        time = str(dateOriginal.time())
+        time = time[0:5]
+        date = str(dateOriginal)
+        date = date[0:10]
+        new_comment = Comment(content = content,  pitch = pitch,time = time, date = date )
+        new_comment.save_comment()
+        return redirect(url_for("main.view_comments", pitch_id=pitch.id))
+    return render_template("comment.html", title = pitch.title,form = form,pitch = pitch)
+
+@main.route("/<pitch_id>/comments")
+@login_required
+def view_comments(pitch_id):
+    pitch = Pitch.query.filter_by(id = pitch_id).first()
+    title = "Comments"
+    comments = pitch.get_pitch_comments()
+
+    return render_template("view_comments.html", comments = comments,pitch = pitch,title = title)
+
+@main.route("/profile/<user_id>")
+@login_required
+def profile(user_id):
+    user = User.query.filter_by(id = user_id).first()
+    pitches = Pitch.query.filter_by(user_id = user.id).order_by(Pitch.time.desc())
+    title = user.name.upper()
+    return render_template("profile.html", pitches = pitches, user = user,title = title)
+
+@main.route("/<user_id>/profile")
+@login_required
+def user(user_id):
+    user = User.query.filter_by(id = user_id).first()
+    pitches = Pitch.query.filter_by(user_id = user.id).order_by(Pitch.time.desc())
+    title = user.name.upper()
+    return render_template("user.html", pitches = pitches, user = user,title = title)
+
+@main.route("/pic/<user_id>/update", methods = ["POST"])
+@login_required
+def update_pic(user_id):
+    user = User.query.filter_by(id = user_id).first()
+    title = "Edit Profile"
+    if "profile-pic" in request.files:
+        pic = photos.save(request.files["profile-pic"])
+        file_path = f"photos/{pic}"
+        user.profile_pic = file_path
+        db.session.commit()
+    return redirect(url_for("main.profile", user_id = user.id))
+
+@main.route("/<user_id>/profile/edit",methods = ["GET","POST"])
+@login_required
+def update_profile(user_id):
+    title = "Edit Profile"
+    user = User.query.filter_by(id = user_id).first()
+    form = EditBio()
+
+    if form.validate_on_submit():
+        bio = form.bio.data
+        user.bio = bio
+        db.session.commit() 
+        return redirect(url_for('main.profile',user_id = user.id)) 
+    return render_template("update_profile.html",form = form,title = title)
+
 
