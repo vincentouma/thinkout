@@ -26,7 +26,7 @@ class User(UserMixin,db.Model):
 
     @property
     def password(self):
-        raise AttributeError("oya...jibebebe..siujibebebebe")
+        raise AttributeError("cant read password")
 
     @password.setter
     def password(self,password):
@@ -34,6 +34,8 @@ class User(UserMixin,db.Model):
 
     def verify_password(self,password):
         return check_password_hash(self.password_hash ,password)
+
+
 
     def get_user_pitches(self):
         user = User.query.filter_by(id = self.id).first()
