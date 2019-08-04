@@ -8,5 +8,3 @@ def test_no_access_password(self):
 def test_password_verification(self):
   self.assertTrue(self.new_user.verify_password ('banana'))
 
-if __name__ == '__main__':
-     manager.run()  
