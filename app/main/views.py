@@ -1,4 +1,4 @@
-from ..models import User,Pitch,Comment
+from ..models import User,Pitch,Comment,Reviews
 from flask import render_template,redirect,url_for,request,abort
 from . import main
 import datetime
@@ -28,7 +28,7 @@ def categories(category):
 
 
 
-    @main.route("/<uname>/add_pitch", methods = ["GET","POST"])
+@main.route("/<uname>/add_pitch", methods = ["GET","POST"])
 @login_required
 def add_pitch(uname):
     form = AddPitchForm()
