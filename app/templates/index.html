@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+<div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-info">
+        <button type="button" class="close" data-dismiss="alert">&times;</button> {{ message }}
+    </div>
+    {% endfor %}
+    <h1 class="text-center animated lightSpeedIn delay-0.4s">THINKOUT HERE <br> You might make someones day.</h1>
+    <p class="text-center">Its easy just pitch a one minute idea on categories provided or comment on the pitche already made vote too <br> Lets have fun</p>
+    <h2 class="text-center">Categories</h2>
+    <div class="row categories">
+        <div class="category col-xs-12 col-sm-12 col-md-3 col-lg-3 thumbnail">
+  <img src="static/images/guitar.jpg" />
+
+            <a href="{{url_for('main.categories',category='product')}}">Music</a>
+        </div>
+        <div class="category col-xs-12 col-sm-12 col-md-3 col-lg-3 thumbnail">
+        <img src="static/images/color.jpg" />
+
+            <a href="{{url_for('main.categories',category='promotion')}}">Colors</a>
+        </div>
+        <div class="category col-xs-12 col-sm-12 col-md-3 col-lg-3 thumbnail">
+        <img src="static/images/love.jpg"/>
+
+            <a href="{{url_for('main.categories',category='gossip')}}">Love</a>
+        </div>
+        <div class="category col-xs-12 col-sm-12 col-md-3 col-lg-3 thumbnail">
+        <img src="static/images/food.jpg">      
+
+            <a href="{{url_for('main.categories',category='funny')}}">Food</a>
+        </div>
+    </div>
+    <div thumbnailiv class="row categories">
+        <div class="category col-xs-12 col-sm-12 col-md-3 col-lg-3 thumbnail">
+               
+        <img src="static/images/games.jpeg" alt="">
+            <a href="{{url_for('main.categories',category='cheesy')}}">Games</a>
+        </div>
+
+        <div class="category col-xs-12 col-sm-12 col-md-3 col-lg-3 thumbnail">
+               
+        <img src="static/images/politics.jpg" alt="">
+            <a href="{{url_for('main.categories',category='highlights')}}">Politics</a>
+        </div>
+
+        <div class="category col-xs-12 col-sm-12 col-md-3 col-lg-3 thumbnail">
+                
+        <img src="static/images/anything.png" alt="">
+            <a href="{{url_for('main.categories',category='random')}}">Any other</a>
+        </div>
+
+        <div class="category col-xs-12 col-sm-12 col-md-3 col-lg-3 thumbnail">
+        <img src="static/images/all.jpg" alt="">    
+
+            <a href="{{url_for('main.categories',category='all')}}">All</a>
+        </div>
+
+
+    </div>
+</div>
+{% endblock %}

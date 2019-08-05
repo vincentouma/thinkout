@@ -1,0 +1,2 @@
+Hello {{user.username}}
+Thanks for signing up to THINKOUT. Give best of your pitch and comments  .

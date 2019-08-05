@@ -1,0 +1,22 @@
+{% extends "base.html" %} {% block content%}
+<div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button> {{ message }}
+    </div>
+    {% endfor %}
+
+    <h1 class="text-center"> {{title}} PITCHES</h1>
+    {% if pitches%} {% for pitch in pitches %}
+    <div class="well">
+
+        <h1>{{pitch.pitch}} </h1>
+        <h2>{{pitch.category}} </h2>
+        <a href="{{url_for('main.comment',user = current_user.username, pitch_id = pitch.id)}}"><button class="btn btn-info">Add A Comment  {{current_user.name}} </button></a>
+
+    </div>
+    <pitch_id>{% endfor %} {%endif%}
+        <a href="{{url_for('main.add_pitch',uname = current_user.username)}}"><button class="btn btn-info">Add A Pitch  {{current_user.name}} </button></a>
+</div>
+
+{% endblock%}
