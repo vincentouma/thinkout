@@ -5,6 +5,8 @@ class Config:
     This is the parent class which will have the general configurations
     """
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    UPLOADED_PHOTOS_DEST = "app/static/photos"
+
 
 
 
