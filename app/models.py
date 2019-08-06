@@ -69,13 +69,13 @@ class Pitch(db.Model):
         comments = Comment.query.filter_by(pitch_id = pitch.id).order_by(Comment.time.desc())
         return comments
 
-def get_user_pitches(self):
-    user = User.query.filter_by(id = self.id).first()
-    return user.pitches
+    def get_user_pitches(self):
+        user = User.query.filter_by(id = self.id).first()
+        return user.pitches
 
-def get_user_comments(self):
-    user  = User.query.filter_by(id = self.id).first()
-    return user.comments
+    def get_user_comments(self):
+        user  = User.query.filter_by(id = self.id).first()
+        return user.comments
 
 
 class Comment(db.Model):

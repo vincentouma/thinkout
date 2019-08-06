@@ -25,9 +25,6 @@ def categories(category):
 
     return render_template("pitches.html", pitches = pitches, title = category)
 
-
-
-
 @main.route("/<uname>/add_pitch", methods = ["GET","POST"])
 @login_required
 def add_pitch(uname):
@@ -47,7 +44,7 @@ def add_pitch(uname):
         date = date[0:10]
         new_pitch = Pitch(title = title, pitch = pitch, category = category,user_id = user.id)
         new_pitch.save_pitch()
-        pitches = Pitch.query.all()
+        ##pitches = Pitch.query.all()
         return redirect(url_for("main.categories",category = category))
     return render_template("add_pitch.html",form = form, title = title)
 
@@ -68,7 +65,7 @@ def comment(user,pitch_id):
         new_comment = Comment(content = content,  pitch = pitch,time = time, date = date )
         new_comment.save_comment()
         return redirect(url_for("main.view_comments", pitch_id=pitch.id))
-    return render_template("comment.html", title = pitch.title,form = form,pitch = pitch)
+    return render_template("comment.html",form = form,pitch = pitch, title = title)
 
 @main.route("/<pitch_id>/comments")
 @login_required
@@ -104,21 +101,19 @@ def update_pic(user_id):
         pic = photos.save(request.files["profile-pic"])
         file_path = f"photos/{pic}"
         user.profile_pic = file_path
-        db.session.commit()
-    return redirect(url_for("main.profile", user_id = user.id))
+       # db.session.commit()
+    return redirect(url_for("main.profile", user_id = user.id, title = title))
 
 @main.route("/<user_id>/profile/edit",methods = ["GET","POST"])
 @login_required
 def update_profile(user_id):
     title = "Edit Profile"
     user = User.query.filter_by(id = user_id).first()
-    form = EditBio()
+    form = edit()
 
     if form.validate_on_submit():
         bio = form.bio.data
         user.bio = bio
-        db.session.commit() 
+        #db.session.commit() 
         return redirect(url_for('main.profile',user_id = user.id)) 
-    return render_template("update_profile.html",form = form,title = title)
-
-
+    return render_template("update_profile.html",form = form,title = title, edit = edit)

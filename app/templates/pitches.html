@@ -7,7 +7,8 @@
     {% endfor %}
 
     <h1 class="text-center"> {{title}} PITCHES</h1>
-    {% if pitches%} {% for pitch in pitches %}
+    {% if pitches%}
+     {% for pitch in pitches %}
     <div class="well">
 
         <h1>{{pitch.pitch}} </h1>
@@ -15,7 +16,8 @@
         <a href="{{url_for('main.comment',user = current_user.username, pitch_id = pitch.id)}}"><button class="btn btn-info">Add A Comment  {{current_user.name}} </button></a>
 
     </div>
-    <pitch_id>{% endfor %} {%endif%}
+    <pitch_id>{% endfor %}
+         {%endif%}
         <a href="{{url_for('main.add_pitch',uname = current_user.username)}}"><button class="btn btn-info">Add A Pitch  {{current_user.name}} </button></a>
 </div>
 
